@@ -12,6 +12,11 @@ bool Application::CreateEntities() {
   character_.object_.setScale(0.5f, 0.5f);
   character_.position_ = sf::Vector2f(0, 0);
 
+  // Create collidable objects and add to list
+  sf::Vector2f collidable_pos(200, 200);
+  sf::Vector2f collidable_size(200, 50);
+  collidable_list_.CreateNewObject(collidable_pos, collidable_size);
+
   return true;
 }
 
@@ -67,6 +72,9 @@ void Application::UpdateState() {
 void Application::RenderGraphics() {
   window_.clear();
   window_.draw(character_.object_);
+  for (int i=0; i<collidable_list_.GetSize(); i++) {
+    window_.draw(collidable_list_.GetObject(i).object_);
+  }
   window_.display();
 }
 

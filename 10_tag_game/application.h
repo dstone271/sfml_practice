@@ -10,6 +10,8 @@
 #include "controllable_object.h"
 #include "utility.h"
 #include "physics.h"
+#include "collidable_object_list.h"
+#include "collidable_object.h"
 
 
 class Application {
@@ -28,6 +30,7 @@ class Application {
   sf::Texture character_texture_ {};
   ControlInput input_ {};
   ControllableObject character_ {};
+  CollidableObjectList collidable_list_ {};
 };
 
 #endif // APPLICATION_H
