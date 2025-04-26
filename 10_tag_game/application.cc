@@ -11,11 +11,13 @@ bool Application::CreateEntities() {
   character_.object_.setTextureRect(sf::IntRect(85, 60, 240, 240));
   character_.object_.setScale(0.5f, 0.5f);
   character_.position_ = sf::Vector2f(0, 0);
+  character_.size_ = sf::Vector2f(120, 120);
 
   // Create collidable objects and add to list
-  sf::Vector2f collidable_pos(200, 200);
-  sf::Vector2f collidable_size(200, 50);
-  collidable_list_.CreateNewObject(collidable_pos, collidable_size);
+  collidable_list_.CreateNewObject(sf::Vector2f(200, 200), sf::Vector2f(200, 50));
+  collidable_list_.CreateNewObject(sf::Vector2f(100, 400), sf::Vector2f(300, 50));
+  collidable_list_.CreateNewObject(sf::Vector2f(600, 200), sf::Vector2f(50, 300));
+  collidable_list_.CreateNewObject(sf::Vector2f(500, 500), sf::Vector2f(100, 100));
 
   return true;
 }
@@ -38,6 +40,14 @@ void Application::ProcessInput() {
       case sf::Event::Closed:
         window_.close();
         break;
+      case sf::Event::KeyPressed:
+        if (event.key.code == sf::Keyboard::Num1) {
+          character_.control_type_ = ControlType::instant_accel;
+        } else if (event.key.code == sf::Keyboard::Num2) {
+          character_.control_type_ = ControlType::constant_accel;
+        } else if (event.key.code == sf::Keyboard::Num3) {
+          character_.control_type_ = ControlType::proportional_accel;
+        }
       default:
         break;
     }
@@ -66,6 +76,7 @@ void Application::UpdateState() {
   clock_.restart();
 
   UpdateControllableObject(character_, input_, elapsed_time_);
+  CheckAndResolveCollisions(character_, collidable_list_);
 }
 
 

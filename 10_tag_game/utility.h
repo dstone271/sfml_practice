@@ -10,6 +10,10 @@ namespace utility {
 // Returns unit vector of size 1 or the zero vector
 sf::Vector2f GetUnitDirection(const sf::Vector2f& direction); 
 
+float DotProduct(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b);
+
+float Magnitude(const sf::Vector2f& vec);
+
 } // namespace utility
 
 #endif // UTILITY_H
