@@ -14,6 +14,8 @@ float DotProduct(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b);
 
 float Magnitude(const sf::Vector2f& vec);
 
+float CalculateAngleDegrees(const sf::Vector2f& orientation);
+
 } // namespace utility
 
 #endif // UTILITY_H

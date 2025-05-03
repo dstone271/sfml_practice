@@ -1,5 +1,8 @@
 #include "utility.h"
 
+namespace {
+  const float PI = 3.14159;
+}
 
 namespace utility {
 
@@ -29,6 +32,16 @@ float Magnitude(const sf::Vector2f& vec) {
   magnitude += vec.y * vec.y;
   magnitude = sqrt(magnitude);
   return magnitude;
+}
+
+
+float CalculateAngleDegrees(const sf::Vector2f& orientation) {
+  float theta = std::acos(orientation.x);
+  if (orientation.y < 0) {
+    theta += 2 * (PI - theta);
+  }
+  theta *= 360.f / (2.f * PI);
+  return theta;
 }
 
 

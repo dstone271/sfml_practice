@@ -1,7 +1,7 @@
 #include "physics.h"
 
 namespace {
-  const float MOVEMENT_ACCEL = 200;
+  const float MOVEMENT_ACCEL = 1500;
   const float BASE_ACCEL = 200;
   const float ACCEL_SLOPE = 10;
 }

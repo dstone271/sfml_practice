@@ -9,6 +9,7 @@ struct CollidableObject {
   sf::RectangleShape object_ {};
   sf::Vector2f position_ {};
   sf::Vector2f size_ {};
+  sf::Vector2f orientation_ {};
 };
 
 #endif // COLLIDABLE_OBJECT_H
