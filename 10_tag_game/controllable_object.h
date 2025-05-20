@@ -21,6 +21,7 @@ struct ControllableObject {
   sf::Sprite object_ {};
   sf::Vector2f position_ {};
   sf::Vector2f size_ {};
+  sf::Vector2f orientation_ {};
 
   // Velocity and speed are in pixels per second
   sf::Vector2f velocity_ {};

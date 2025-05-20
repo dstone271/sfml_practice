@@ -16,6 +16,8 @@ float Magnitude(const sf::Vector2f& vec);
 
 float CalculateAngleDegrees(const sf::Vector2f& orientation);
 
+sf::Vector2f GetOrientationFromDegrees(float degrees);
+
 } // namespace utility
 
 #endif // UTILITY_H

@@ -4,6 +4,7 @@ namespace {
   const float MOVEMENT_ACCEL = 1500;
   const float BASE_ACCEL = 200;
   const float ACCEL_SLOPE = 10;
+  const float ANGULAR_VELOCITY = 90;
 }
 
 
@@ -14,20 +15,30 @@ void UpdateControllableObject(ControllableObject& object, const ControlInput& in
     case ControlType::instant_accel:
       object.velocity_ = input.normalized_movement_ * object.max_speed_;
       object.position_ += object.velocity_ * elapsed_time.asSeconds();
-      object.object_.setPosition(object.position_);
       break;
     case ControlType::constant_accel:
       object.velocity_ += utility::GetUnitDirection(velocity_error) * MOVEMENT_ACCEL * elapsed_time.asSeconds();
       object.position_ += object.velocity_ * elapsed_time.asSeconds();
-      object.object_.setPosition(object.position_);
       break;
     case ControlType::proportional_accel:
       float accel = (utility::Magnitude(velocity_error) * ACCEL_SLOPE) + BASE_ACCEL;
       object.velocity_ += utility::GetUnitDirection(velocity_error) * accel * elapsed_time.asSeconds();
       object.position_ += object.velocity_ * elapsed_time.asSeconds();
-      object.object_.setPosition(object.position_);
       break;
   }
+
+  // Update object orientation
+  float rotation_degrees = utility::CalculateAngleDegrees(object.orientation_);
+  if (input.rotation_direction_ == RotationDirection::clockwise) {
+    rotation_degrees += ANGULAR_VELOCITY * elapsed_time.asSeconds();
+  } else if (input.rotation_direction_ == RotationDirection::counter_clockwise) {
+    rotation_degrees -= ANGULAR_VELOCITY * elapsed_time.asSeconds();
+  }
+  object.orientation_ = utility::GetOrientationFromDegrees(rotation_degrees);
+
+  // Set position and orientation for graphics object
+  object.object_.setPosition(object.position_);
+  object.object_.setRotation(utility::CalculateAngleDegrees(object.orientation_));
 }
 
 
@@ -43,15 +54,12 @@ void CheckAndResolveCollisions(ControllableObject& object, CollidableObjectList&
 
 
 CollisionData CheckCollision(ControllableObject& object, CollidableObject& collidable) {
-  // collision occurred
-  // collision normal
-  // penetration depth
   CollisionData collision_result;
   sf::Vector2i collision_axis;
 
   // check x-axis
-  float x_penetration_left = (object.position_.x + object.size_.x) - collidable.position_.x;
-  float x_penetration_right = (collidable.position_.x + collidable.size_.x) - object.position_.x;
+  float x_penetration_left = (object.position_.x + (object.size_.x / 2.f)) - (collidable.position_.x - (collidable.size_.x / 2.f));
+  float x_penetration_right = (collidable.position_.x + (collidable.size_.x / 2.f)) - (object.position_.x - (object.size_.x / 2.f));
   float x_penetration;
   if (x_penetration_left < x_penetration_right) {
     x_penetration = x_penetration_left;
@@ -67,8 +75,8 @@ CollisionData CheckCollision(ControllableObject& object, CollidableObject& colli
   }
   
   // check y-axis
-  float y_penetration_up = (object.position_.y + object.size_.y) - collidable.position_.y;
-  float y_penetration_down = (collidable.position_.y + collidable.size_.y) - object.position_.y;
+  float y_penetration_up = (object.position_.y + (object.size_.y / 2.f)) - (collidable.position_.y - (collidable.size_.y / 2.f));
+  float y_penetration_down = (collidable.position_.y + (collidable.size_.y / 2.f)) - (object.position_.y - (object.size_.y / 2.f));
   float y_penetration;
   if (y_penetration_up < y_penetration_down) {
     y_penetration = y_penetration_up;

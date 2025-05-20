@@ -9,9 +9,11 @@ bool Application::CreateEntities() {
   }
   character_.object_.setTexture(character_texture_);
   character_.object_.setTextureRect(sf::IntRect(85, 60, 240, 240));
+  character_.object_.setOrigin(120, 120);
   character_.object_.setScale(0.5f, 0.5f);
-  character_.position_ = sf::Vector2f(0, 0);
+  character_.position_ = sf::Vector2f(80, 80);
   character_.size_ = sf::Vector2f(120, 120);
+  character_.orientation_ = sf::Vector2f(1, 0);
 
   // Create collidable objects and add to list
   collidable_list_.CreateNewObject(sf::Vector2f(200, 200), sf::Vector2f(200, 50), sf::Vector2f(1, 0));
@@ -66,8 +68,15 @@ void Application::ProcessInput() {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
     velocity_direction.y += 1;
   }
-
   input_.normalized_movement_ = utility::GetUnitDirection(velocity_direction);
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    input_.rotation_direction_ = RotationDirection::counter_clockwise;
+  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    input_.rotation_direction_ = RotationDirection::clockwise;
+  } else {
+    input_.rotation_direction_ = RotationDirection::no_rotation;
+  }
 }
 
 

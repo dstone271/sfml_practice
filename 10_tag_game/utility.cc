@@ -45,4 +45,13 @@ float CalculateAngleDegrees(const sf::Vector2f& orientation) {
 }
 
 
+sf::Vector2f GetOrientationFromDegrees(float degrees) {
+  sf::Vector2f orientation;
+  float rotation_radians = degrees * PI / 180.0;
+  orientation.x = std::cos(rotation_radians);
+  orientation.y = std::sin(rotation_radians);
+  return orientation;
+}
+
+
 } // namespace utility
