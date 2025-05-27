@@ -18,6 +18,10 @@ float CalculateAngleDegrees(const sf::Vector2f& orientation);
 
 sf::Vector2f GetOrientationFromDegrees(float degrees);
 
+sf::Vector2f TransformPointFromBasis(const sf::Vector2f& point, const sf::Vector2f& position, const sf::Vector2f& orientation); 
+
+sf::Vector2f TransformPointToBasis(const sf::Vector2f& point, const sf::Vector2f& position, const sf::Vector2f& orientation); 
+
 } // namespace utility
 
 #endif // UTILITY_H

@@ -105,6 +105,80 @@ CollisionData CheckCollision(ControllableObject& object, CollidableObject& colli
 }
 
 
+CollisionData CheckOOBBCollision(ControllableObject& object, CollidableObject& collidable) {
+  // Set up collision data and helper variables
+  CollisionData collision_result;
+  collision_result.collision_occurred_ = true;
+  collision_result.penetration_depth_ = std::numeric_limits<float>::max();
+
+  // Do controllable object axis's first
+  // Do x asix first
+  sf::Vector2f a_corner0_a = object.size_;
+  sf::Vector2f a_corner2_a = -object.size_;
+  float a_min = a_corner2_a.x;
+  float a_max = a_corner0_a.x;
+  sf::Vector2f collison_normal(1.f, 0);
+
+  sf::Vector2f[4] b_corners_a;
+  b_corners_a[0] = collidable.size_;
+  b_corners_a[0] = utility::TransformPointFromBasis(b_corners_a[0], collidable.position_, collidable.orientation_);
+  b_corners_a[0] = utility::TransformPointToBasis(b_corners_a[0], object.position_, object.orientation_);
+  b_conrers_a[1] = sf::Vector2f(- collidable.size_.x, collidable.size_.y);
+  b_corners_a[1] = utility::TransformPointFromBasis(b_corners_a[1], collidable.position_, collidable.orientation_);
+  b_corners_a[1] = utility::TransformPointToBasis(b_corners_a[1], object.position_, object.orientation_);
+  b_conrers_a[2] = - collidable.size_;
+  b_corners_a[2] = utility::TransformPointFromBasis(b_corners_a[2], collidable.position_, collidable.orientation_);
+  b_corners_a[2] = utility::TransformPointToBasis(b_corners_a[2], object.position_, object.orientation_);
+  b_conrers_a[3] = sf::Vector2f(collidable.size_.x, - collidable.size_.y);
+  b_corners_a[3] = utility::TransformPointFromBasis(b_corners_a[3], collidable.position_, collidable.orientation_);
+  b_corners_a[3] = utility::TransformPointToBasis(b_corners_a[3], object.position_, object.orientation_);
+
+  float b_min = b_corners_a[0].x;
+  float b_max = b_corners_a[0].x;
+  sf::Vector2f b_corner_min = b_corners_a[0];
+  sf::Vector2f b_corner_max = b_corners_a[0];
+  for (int i = 1; i <= 3; i++) {
+    if (b_corners_a[i].x < b_min) {
+      b_min = b_corners_a[i].x;
+      b_corner_min = b_corners_a[i];
+    }
+    else if (b_corners_a[i].x > b_max) {
+      b_max = b_corners_a[i].x;
+      b_corner_max = b_corners_a[i];
+    }
+  }
+
+  // Calculate penetration depths
+  bool collision_occurred;
+  float penetration_depth;
+  int collision_direction;
+  collision_occurred = CalculateCollisionOnAxis(a_min, a_max, b_min, b_max, penetration_depth, collision_direction);
+
+  // If no collision, then return
+  if (collision_occurred == false) {
+    collision_result.collision_occurred_ = false;
+    return collision_result;
+  }
+
+  // Otherwise, there is a collision. Set collision data
+  if (penetration_depth < collision_result.penetration_depth_) {
+    collision_result.penetration_depth_ = penetration_depth;
+    collision_normal = collision_normal * collision_direction;
+    collision_normal = utility::TransformPointFromBasis(collision_normal, sf::Vector2f(0, 0), object.orientation_);
+    collision_result.collision_normal_ = collision_normal;
+    // This is becuase we are using A's x-axis
+    if (collision_direction == -1) {
+      collision_result.collision_point_local_ = sf::Vector2f(object.size_.x, b_corner_min.y);
+    } else if (collision_direction == 1) {
+      collision_result.collision_point_local_ = sf::Vector2f(- object.size_.x, b_corner_max.y);
+    }
+  }
+
+  // Return collision data
+  return collision_data;
+}
+
+
 void ResolveCollision(ControllableObject& object, CollisionData& collision) {
   if (collision.collision_occurred_ == false) {
     return;
