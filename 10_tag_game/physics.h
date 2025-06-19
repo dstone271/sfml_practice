@@ -3,6 +3,7 @@
 
 #include <SFML/System.hpp>
 #include <limits>
+#include <iostream>
 
 #include "controllable_object.h"
 #include "collidable_object_list.h"
@@ -15,7 +16,7 @@ struct CollisionData {
   bool collision_occurred_ = false;
   sf::Vector2f collision_normal_;
   float penetration_depth_;
-  float collision_point_local_;
+  sf::Vector2f collision_point_local_;
 };
 
 void UpdateControllableObject(ControllableObject& object, const ControlInput& input, sf::Time elapsed_time); 
@@ -27,5 +28,8 @@ CollisionData CheckCollision(ControllableObject& object, CollidableObject& colli
 CollisionData CheckOOBBCollision(ControllableObject& object, CollidableObject& collidable); 
 
 void ResolveCollision(ControllableObject& object, CollisionData& collision); 
+
+bool CalculateCollisionOnAxis(float a_min, float a_max, float b_min, float b_max, float& penetration_depth,
+    int& collision_direction);
 
 #endif // PHYSICS_H
