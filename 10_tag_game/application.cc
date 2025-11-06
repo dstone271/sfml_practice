@@ -1,6 +1,11 @@
 #include "application.h"
 
 
+void Application::SetupParticleDemo() {
+  window_.create(sf::VideoMode(800, 800), "Particle Demo");
+}
+
+
 bool Application::CreateEntities() {
   window_.create(sf::VideoMode(800, 800), "TAG Game");
   if (!character_texture_.loadFromFile("smile.jpg")) {
@@ -38,6 +43,9 @@ void Application::RunGameLoop() {
 void Application::ProcessInput() {
   sf::Event event;
 
+  // Clear input
+  input_.action0 = false;
+
   while (window_.pollEvent(event)) {
     switch (event.type) {
       case sf::Event::Closed:
@@ -50,6 +58,8 @@ void Application::ProcessInput() {
           character_.control_type_ = ControlType::constant_accel;
         } else if (event.key.code == sf::Keyboard::Num3) {
           character_.control_type_ = ControlType::proportional_accel;
+        } else if (event.key.code == sf::Keyboard::Space) {
+          input_.action0 = true;
         }
       default:
         break;
@@ -85,17 +95,41 @@ void Application::UpdateState() {
   elapsed_time_ = clock_.getElapsedTime();
   clock_.restart();
 
-  UpdateControllableObject(character_, input_, elapsed_time_);
-  CheckAndResolveCollisions(character_, collidable_list_);
+  //UpdateControllableObject(character_, input_, elapsed_time_);
+  //CheckAndResolveCollisions(character_, collidable_list_);
+  
+  // Create and update particles
+  if (input_.action0) {
+    Particle new_particle;
+    new_particle.SetPosition(100, 700);
+    new_particle.SetVelocity(200, -200);
+    new_particle.SetAcceleration(0, 150);
+    new_particle.SetInverseMass(1);
+    new_particle.SetDamping(0.999);
+    particle_list_.push_back(new_particle);
+  }
+  for (int i = 0; i < particle_list_.size(); i++) {
+    particle_list_[i].Integrate(elapsed_time_);
+    if (particle_list_[i].GetPosition().y >= 700) {
+      particle_list_.erase(particle_list_.begin() + i);
+    }
+  }
 }
 
 
 void Application::RenderGraphics() {
   window_.clear();
-  window_.draw(character_.object_);
+  
+  /*window_.draw(character_.object_);
   for (int i=0; i<collidable_list_.GetSize(); i++) {
     window_.draw(collidable_list_.GetObject(i).object_);
   }
+  */
+
+  for (int i = 0; i < particle_list_.size(); i++) {
+    window_.draw(particle_list_[i].object_);
+  }
+
   window_.display();
 }
 

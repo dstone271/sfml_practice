@@ -5,6 +5,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 
 #include "control_input.h"
 #include "controllable_object.h"
@@ -12,12 +13,15 @@
 #include "physics.h"
 #include "collidable_object_list.h"
 #include "collidable_object.h"
+#include "particle.h"
 
 
 class Application {
  public:
+  void SetupParticleDemo();
   bool CreateEntities();
   void RunGameLoop();
+
 
  private:
   void ProcessInput();
@@ -31,6 +35,7 @@ class Application {
   ControlInput input_ {};
   ControllableObject character_ {};
   CollidableObjectList collidable_list_ {};
+  std::vector<Particle> particle_list_ {};
 };
 
 #endif // APPLICATION_H

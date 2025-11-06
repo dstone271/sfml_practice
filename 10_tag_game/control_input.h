@@ -16,6 +16,8 @@ struct ControlInput {
 
   // Clockwise is +1, Counter-clockwise is -1, no rotation is 0
   RotationDirection rotation_direction_ {};
+
+  bool action0 {};
 };
 
 #endif // CONTROL_INPUT_H
