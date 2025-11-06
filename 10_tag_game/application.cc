@@ -16,9 +16,10 @@ bool Application::CreateEntities() {
   character_.orientation_ = sf::Vector2f(1, 0);
 
   // Create collidable objects and add to list
-  //collidable_list_.CreateNewObject(sf::Vector2f(200, 200), sf::Vector2f(200, 50), sf::Vector2f(1, 0));
+  //collidable_list_.CreateNewObject(sf::Vector2f(200, 200), sf::Vector2f(200, 50), sf::Vector2f(0.7071, 0.7071));
   //collidable_list_.CreateNewObject(sf::Vector2f(100, 400), sf::Vector2f(300, 50), sf::Vector2f(0.866, 0.5));
-  collidable_list_.CreateNewObject(sf::Vector2f(600, 200), sf::Vector2f(50, 300), sf::Vector2f(1,0)); //sf::Vector2f(0.7071, 0.7071));
+  collidable_list_.CreateNewObject(sf::Vector2f(600, 200), sf::Vector2f(50, 300), sf::Vector2f(1,0)); 
+  collidable_list_.CreateNewObject(sf::Vector2f(300, 400), sf::Vector2f(200, 80), sf::Vector2f(0.866, 0.5));
   //collidable_list_.CreateNewObject(sf::Vector2f(500, 500), sf::Vector2f(100, 100), sf::Vector2f(0.5, 0.866));
 
   return true;

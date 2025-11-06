@@ -9,7 +9,7 @@ void CollidableObjectList::CreateNewObject(const sf::Vector2f& position, const s
   new_object.object_.setOrigin(size.x / 2.f, size.y / 2.f);
   new_object.object_.setPosition(position);
   new_object.object_.setSize(size);
-  //new_object.object_.setRotation(utility::CalculateAngleDegrees(orientation));
+  new_object.object_.setRotation(utility::CalculateAngleDegrees(orientation));
   new_object.object_.setFillColor(sf::Color::Red);
 
   object_list_.push_back(new_object);
