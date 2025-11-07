@@ -3,6 +3,10 @@
 
 void Application::SetupParticleDemo() {
   window_.create(sf::VideoMode(800, 800), "Particle Demo");
+  part_emitter_.SetPosition(100, 700);
+  part_emitter_.SetVelocity(0, 0);
+  part_emitter_.SetOrientation(0, -1);
+  part_emitter_.SetSize(100, 26);
 }
 
 
@@ -97,23 +101,9 @@ void Application::UpdateState() {
 
   //UpdateControllableObject(character_, input_, elapsed_time_);
   //CheckAndResolveCollisions(character_, collidable_list_);
-  
-  // Create and update particles
-  if (input_.action0) {
-    Particle new_particle;
-    new_particle.SetPosition(100, 700);
-    new_particle.SetVelocity(200, -200);
-    new_particle.SetAcceleration(0, 150);
-    new_particle.SetInverseMass(1);
-    new_particle.SetDamping(0.999);
-    particle_list_.push_back(new_particle);
-  }
-  for (int i = 0; i < particle_list_.size(); i++) {
-    particle_list_[i].Integrate(elapsed_time_);
-    if (particle_list_[i].GetPosition().y >= 700) {
-      particle_list_.erase(particle_list_.begin() + i);
-    }
-  }
+
+  // Update particle emitter
+  part_emitter_.Update(input_, elapsed_time_);
 }
 
 
@@ -126,9 +116,8 @@ void Application::RenderGraphics() {
   }
   */
 
-  for (int i = 0; i < particle_list_.size(); i++) {
-    window_.draw(particle_list_[i].object_);
-  }
+  // Draw particle emitter
+  part_emitter_.Draw(window_);
 
   window_.display();
 }

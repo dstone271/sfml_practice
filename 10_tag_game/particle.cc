@@ -14,6 +14,8 @@ void Particle::Integrate(sf::Time elapsed_time) {
 
   object_.setPosition(position_);
   ClearForceAccum();
+
+  life_ -= elapsed_time.asSeconds();
 } 
 
 void Particle::SetPosition(float x_val, float y_val) {
@@ -43,6 +45,10 @@ sf::Vector2f Particle::GetPosition() {
   return position_;
 }
 
+sf::Vector2f Particle::GetVelocity() {
+  return velocity_;
+}
+
 void Particle::AddForce(sf::Vector2f force) {
   force_accum_ += force;
 }
@@ -51,3 +57,20 @@ void Particle::ClearForceAccum() {
   force_accum_.x = 0;
   force_accum_.y = 0;
 }
+
+void Particle::SetLife(float life_val) {
+  life_ = life_val;
+}
+
+float Particle::GetLife() {
+  return life_;
+}
+
+void Particle::SetGenerations(int generation_val) {
+  spawn_generations_ = generation_val;
+}
+
+int Particle::GetGenerations() {
+  return spawn_generations_;
+}
+

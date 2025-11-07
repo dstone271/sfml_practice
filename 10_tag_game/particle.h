@@ -17,9 +17,15 @@ class Particle {
   void SetDamping(float damping);
 
   sf::Vector2f GetPosition();
+  sf::Vector2f GetVelocity();
 
   void AddForce(sf::Vector2f force);
   void ClearForceAccum();
+
+  void SetLife(float life_val);
+  float GetLife();
+  void SetGenerations(int generation_val);
+  int GetGenerations();
 
  private:
   sf::Vector2f position_ {};
@@ -30,6 +36,9 @@ class Particle {
 
   float inverse_mass_ {};
   float damping_ {};
+
+  float life_ {};
+  int spawn_generations_ {};
 
  public:
   sf::CircleShape object_ {5};

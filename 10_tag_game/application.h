@@ -13,7 +13,7 @@
 #include "physics.h"
 #include "collidable_object_list.h"
 #include "collidable_object.h"
-#include "particle.h"
+#include "particle_emitter.h"
 
 
 class Application {
@@ -35,7 +35,7 @@ class Application {
   ControlInput input_ {};
   ControllableObject character_ {};
   CollidableObjectList collidable_list_ {};
-  std::vector<Particle> particle_list_ {};
+  ParticleEmitter part_emitter_ {};
 };
 
 #endif // APPLICATION_H
