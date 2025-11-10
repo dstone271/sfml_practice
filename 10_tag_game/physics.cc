@@ -54,6 +54,33 @@ void CheckAndResolveCollisions(ControllableObject& object, CollidableObjectList&
 }
 
 
+void CheckAndResolveCollisions(ParticleGun& particle_gun, ShatterBox& shatter_box) {
+  sf::Vector2f box_pos = shatter_box.GetPosition();
+  sf::Vector2f box_size = shatter_box.GetSize();
+  float min_x = box_pos.x - (box_size.x / 2.0);
+  float max_x = box_pos.x + (box_size.x / 2.0);
+  float min_y = box_pos.y - (box_size.y / 2.0);
+  float max_y = box_pos.y + (box_size.y / 2.0);
+  int num_particles = particle_gun.GetNumParticles(); 
+  bool collision = false;
+  for (int i = 0; i < num_particles; i++) {
+    sf::Vector2f particle_pos = particle_gun.GetParticlePos(i);
+    if (particle_pos.x > min_x && particle_pos.x < max_x) {
+      if (particle_pos.y > min_y && particle_pos.y < max_y) {
+        collision = true;
+        break;
+      }
+    }
+  } 
+
+  if (collision) {
+    shatter_box.CollisionOccurred();
+  }
+
+  return;
+}
+
+
 CollisionData CheckCollision(ControllableObject& object, CollidableObject& collidable) {
   CollisionData collision_result;
   sf::Vector2i collision_axis;

@@ -3,10 +3,16 @@
 
 void Application::SetupParticleDemo() {
   window_.create(sf::VideoMode(800, 800), "Particle Demo");
-  part_emitter_.SetPosition(100, 700);
+  /*part_emitter_.SetPosition(100, 700);
   part_emitter_.SetVelocity(0, 0);
   part_emitter_.SetOrientation(0, -1);
-  part_emitter_.SetSize(100, 26);
+  part_emitter_.SetSize(100, 26);*/
+  part_gun_.SetPosition(100, 400);
+  part_gun_.SetVelocity(0, 0);
+  part_gun_.SetOrientation(1, 0);
+  part_gun_.SetSize(100, 26);
+  shatter_box_.SetPosition(400, 400);
+  shatter_box_.SetSize(100, 100);
 }
 
 
@@ -103,7 +109,11 @@ void Application::UpdateState() {
   //CheckAndResolveCollisions(character_, collidable_list_);
 
   // Update particle emitter
-  part_emitter_.Update(input_, elapsed_time_);
+  part_gun_.Update(input_, elapsed_time_);
+  shatter_box_.Update(elapsed_time_);
+  
+  // Check for collisions
+  CheckAndResolveCollisions(part_gun_, shatter_box_);
 }
 
 
@@ -117,7 +127,8 @@ void Application::RenderGraphics() {
   */
 
   // Draw particle emitter
-  part_emitter_.Draw(window_);
+  part_gun_.Draw(window_);
+  shatter_box_.Draw(window_);
 
   window_.display();
 }

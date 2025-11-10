@@ -10,6 +10,9 @@
 #include "collidable_object.h"
 #include "control_input.h"
 #include "utility.h"
+#include "particle_gun.h"
+#include "shatter_box.h"
+#include "particle.h"
 
 
 struct CollisionData {
@@ -22,6 +25,8 @@ struct CollisionData {
 void UpdateControllableObject(ControllableObject& object, const ControlInput& input, sf::Time elapsed_time); 
 
 void CheckAndResolveCollisions(ControllableObject& object, CollidableObjectList& collidable_list);
+
+void CheckAndResolveCollisions(ParticleGun& particle_gun, ShatterBox& shatter_box);
 
 CollisionData CheckCollision(ControllableObject& object, CollidableObject& collidable); 
 

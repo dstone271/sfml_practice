@@ -14,6 +14,8 @@
 #include "collidable_object_list.h"
 #include "collidable_object.h"
 #include "particle_emitter.h"
+#include "particle_gun.h"
+#include "shatter_box.h"
 
 
 class Application {
@@ -36,6 +38,8 @@ class Application {
   ControllableObject character_ {};
   CollidableObjectList collidable_list_ {};
   ParticleEmitter part_emitter_ {};
+  ParticleGun part_gun_ {};
+  ShatterBox shatter_box_ {};
 };
 
 #endif // APPLICATION_H
