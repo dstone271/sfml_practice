@@ -16,6 +16,10 @@ void Particle::Integrate(sf::Time elapsed_time) {
   ClearForceAccum();
 
   life_ -= elapsed_time.asSeconds();
+  alpha_ -= 160 * elapsed_time.asSeconds();
+  sf::Color color = object_.getFillColor();
+  color.a = (int) alpha_;
+  object_.setFillColor(color);
 } 
 
 void Particle::SetPosition(float x_val, float y_val) {

@@ -13,6 +13,9 @@ void Application::SetupParticleDemo() {
   part_gun_.SetSize(100, 26);
   shatter_box_.SetPosition(400, 400);
   shatter_box_.SetSize(100, 100);
+  shatter_box_.object_.setFillColor(sf::Color(200, 60, 30, 255));
+  shatter_box_.shatter_emitter_.particle_texture_.loadFromFile("explosion.png");
+  //shatter_box_.object_.setTexture(&shatter_box_.shatter_emitter_.particle_texture_);
 }
 
 

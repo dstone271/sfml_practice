@@ -39,9 +39,10 @@ class Particle {
 
   float life_ {};
   int spawn_generations_ {};
+  float alpha_ {255};
 
  public:
-  sf::CircleShape object_ {5};
+  sf::RectangleShape object_ {sf::Vector2f(25, 25)};
 };
 
 #endif // PARTICLE_H

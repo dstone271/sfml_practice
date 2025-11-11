@@ -24,6 +24,8 @@ class ShatterBox {
   sf::Vector2f size_ {};
   bool display_ {true};
   float respawn_life_ {};
+
+ public:
   ShatterEmitter shatter_emitter_ {};
 };
 

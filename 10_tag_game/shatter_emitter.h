@@ -24,6 +24,9 @@ class ShatterEmitter {
   float percent_collision_velocity_ {0.5};
   bool active_ {false};
   std::vector<Particle> particle_list_ {};
+
+ public:
+  sf::Texture particle_texture_ {};
 };
 
 #endif // SHATTER_EMITTER_H

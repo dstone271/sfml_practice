@@ -54,6 +54,8 @@ void ShatterEmitter::Activate(sf::Vector2f box_position, sf::Vector2f box_size) 
       new_particle.SetInverseMass(1);
       new_particle.SetDamping(0.15);
       new_particle.SetLife(1.5);
+      new_particle.object_.setFillColor(sf::Color(255, 100, 50, 255));
+      new_particle.object_.setTexture(&particle_texture_);
       particle_list_.push_back(new_particle);
     }
   }
